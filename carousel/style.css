@@ -1,19 +1,26 @@
-/* Dr.SYS カルーセル デザイン（1080×1350 / 4:5） */
+/* Dr.SYS カルーセル デザイン（1080×1350 / 4:5）
+   方針：上品な配色はそのまま、手書き文字・マスキングテープ・ゆれた線で
+   「手づくり感」を出し、整いすぎたAIっぽさを避ける */
+@import url("fonts/yomogi/400.css");
+@import url("fonts/klee-one/600.css");
+
 :root {
-  --bg: #FAF7F3;          /* 白〜ごく薄いベージュ */
-  --lavender: #B9A9D0;    /* パッケージの薄紫 */
+  --bg: #FAF7F3;
+  --lavender: #B9A9D0;
   --lavender-soft: #E9E2F2;
-  --pink: #E9B9B5;        /* くすみピンク（差し色） */
+  --pink: #E9B9B5;
   --pink-soft: #F6DEDA;
-  --ink: #3E3438;         /* 文字色：やわらかい濃茶グレー */
-  --accent: #B5677A;      /* 強調色：深めのくすみローズ */
-  --ink-soft: #8A7F84;
-  --serif: "Noto Serif CJK JP", "Noto Serif JP", serif;
-  --sans: "Noto Sans CJK JP", "Noto Sans JP", sans-serif;
+  --accent: #B5677A;
+  --marker: rgba(255, 236, 140, .85);   /* 黄色い蛍光ペン */
+  --ink: #3E3438;
+  --ink-soft: #7D7176;
+  --serif: "Noto Serif CJK JP", serif;
+  --sans: "Noto Sans CJK JP", sans-serif;
+  --hand: "Yomogi", "Klee One", cursive;
+  --pen: "Klee One", serif;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
 html, body { width: 1080px; height: 1350px; }
 
 body {
@@ -24,66 +31,71 @@ body {
   overflow: hidden;
 }
 
-/* 背景の細い円のあしらい */
-.ring {
-  position: absolute;
-  border-radius: 50%;
-  border: 2px solid var(--lavender);
-  opacity: .35;
+/* 方眼ノートのような薄い格子 */
+body::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(185,169,208,.13) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(185,169,208,.13) 2px, transparent 2px);
+  background-size: 54px 54px;
 }
-.ring.r1 { width: 560px; height: 560px; top: -280px; right: -280px; }
-.ring.r2 { width: 320px; height: 320px; top: -170px; left: -170px; border-color: var(--pink); opacity: .6; }
 
-.frame {
-  position: absolute;
-  inset: 64px;
-  display: flex;
-  flex-direction: column;
-}
+.frame { position: absolute; inset: 64px; display: flex; flex-direction: column; }
 
 .brand {
-  font-family: var(--serif);
-  font-size: 30px;
-  letter-spacing: .18em;
+  font-family: var(--hand);
+  font-size: 34px;
   color: var(--ink-soft);
-  text-align: center;
+  transform: rotate(-2deg);
+  align-self: flex-start;
+  border-bottom: 3px dotted var(--lavender);
+  padding: 0 6px 4px;
 }
 
 .footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 26px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--hand);
+  font-size: 32px;
   color: var(--ink-soft);
-  letter-spacing: .08em;
 }
 .dots { display: flex; gap: 14px; }
-.dots span { width: 14px; height: 14px; border-radius: 50%; background: var(--lavender-soft); }
+.dots span { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--lavender); }
 .dots span.on { background: var(--lavender); }
+
+/* マスキングテープ */
+.tape {
+  position: absolute;
+  width: 190px; height: 54px;
+  background: repeating-linear-gradient(45deg, rgba(185,169,208,.55) 0 12px, rgba(185,169,208,.38) 12px 24px);
+  z-index: 3;
+}
+.tape.pink { background: repeating-linear-gradient(45deg, rgba(233,185,181,.7) 0 12px, rgba(233,185,181,.5) 12px 24px); }
+.tape.tl { top: -24px; left: 40px; transform: rotate(-8deg); }
+.tape.tr { top: -20px; right: 52px; transform: rotate(6deg); }
+
+/* 手描き風のキラキラ・ハート */
+.doodle { position: absolute; z-index: 4; }
 
 /* ---------- 表紙 ---------- */
 .cover .panel {
   flex: 1;
-  margin: 56px 0 48px;
+  margin: 44px 8px 40px;
   background: var(--pink-soft);
-  border-radius: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  border-radius: 18px 26px 22px 30px;
+  transform: rotate(-1.2deg);
+  box-shadow: 6px 8px 0 rgba(62,52,56,.06);
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
   text-align: center;
-  padding: 80px 64px;
+  padding: 80px 56px;
   position: relative;
 }
 .kicker {
-  display: inline-block;
-  font-size: 32px;
-  letter-spacing: .14em;
-  color: #fff;
-  background: var(--lavender);
-  border-radius: 999px;
-  padding: 14px 40px;
-  margin-bottom: 64px;
+  font-family: var(--hand);
+  font-size: 44px;
+  color: var(--accent);
+  margin-bottom: 44px;
+  transform: rotate(-3deg);
 }
 .cover h1 {
   font-family: var(--serif);
@@ -96,97 +108,95 @@ body {
   font-style: normal;
   color: var(--accent);
   font-size: 1.12em;
-  background: linear-gradient(transparent 72%, rgba(255,255,255,.95) 72%, rgba(255,255,255,.95) 92%, transparent 92%);
-  padding: 0 .08em;
+  /* 少しはみ出した蛍光ペン */
+  background: linear-gradient(178.5deg, transparent 58%, var(--marker) 58%, var(--marker) 90%, transparent 90%);
+  padding: 0 .12em;
 }
 .cover .sub {
-  margin-top: 64px;
-  font-size: 34px;
-  color: var(--ink-soft);
-  letter-spacing: .1em;
+  margin-top: 56px;
+  font-family: var(--hand);
+  font-size: 46px;
+  color: var(--ink);
 }
 
 /* ---------- 中身 ---------- */
-.body-slide .content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 24px;
-}
+.body-slide .content { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 0 16px; }
 .num {
-  font-family: var(--serif);
-  font-weight: 900;
-  font-size: 132px;
-  line-height: 1;
-  color: var(--lavender);
-  letter-spacing: .04em;
+  font-family: var(--hand);
+  font-size: 64px;
+  color: var(--accent);
+  align-self: flex-start;
+  border: 4px solid var(--accent);
+  border-radius: 58% 42% 55% 45% / 50% 55% 45% 50%;
+  padding: 6px 30px 2px;
+  transform: rotate(-4deg);
 }
 .body-slide h2 {
   font-family: var(--serif);
   font-weight: 900;
-  font-size: 78px;
-  line-height: 1.5;
-  margin: 32px 0 48px;
-  padding-bottom: 40px;
-  border-bottom: 3px solid var(--pink);
+  font-size: 80px;
+  line-height: 1.45;
+  margin: 36px 0 12px;
 }
+.squiggle { width: 520px; height: 34px; margin-bottom: 44px; }
 .body-slide p {
-  font-size: 42px;
+  font-size: 44px;
   line-height: 1.95;
-  letter-spacing: .03em;
 }
 .body-slide p strong {
   font-weight: 900;
-  color: var(--accent);
-  background: linear-gradient(transparent 60%, var(--lavender-soft) 60%);
+  background: linear-gradient(179deg, transparent 55%, var(--marker) 55%, var(--marker) 92%, transparent 92%);
 }
 .note {
-  margin-top: 40px;
-  font-size: 28px;
+  margin-top: 36px;
+  font-family: var(--hand);
+  font-size: 34px;
   color: var(--ink-soft);
 }
 
 /* ---------- 最後の呼びかけ ---------- */
 .cta .panel {
   flex: 1;
-  margin: 56px 0 48px;
-  background: var(--lavender-soft);
-  border-radius: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  margin: 44px 8px 40px;
+  background: #fff;
+  border: 4px dashed var(--lavender);
+  border-radius: 24px 18px 28px 20px;
+  transform: rotate(1deg);
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
   text-align: center;
-  padding: 80px 56px;
+  padding: 72px 48px;
+  position: relative;
 }
 .cta .lead {
-  font-size: 38px;
-  line-height: 1.8;
+  font-family: var(--hand);
+  font-size: 42px;
+  line-height: 1.7;
   color: var(--ink-soft);
-  margin-bottom: 56px;
+  margin-bottom: 48px;
 }
 .cta h2 {
   font-family: var(--serif);
   font-weight: 900;
   font-size: 84px;
-  line-height: 1.55;
+  line-height: 1.5;
 }
+.keyword-wrap { position: relative; margin-top: 52px; }
 .keyword {
   display: inline-block;
-  margin: 56px 0 0;
   font-family: var(--serif);
-  font-size: 76px;
+  font-size: 80px;
   font-weight: 900;
   color: #fff;
   background: var(--accent);
-  border-radius: 24px;
-  padding: 20px 64px;
+  border-radius: 12px 20px 14px 22px;
+  padding: 16px 64px 20px;
   letter-spacing: .1em;
+  transform: rotate(-3deg);
+  box-shadow: 6px 6px 0 rgba(62,52,56,.12);
 }
 .cta .small {
-  margin-top: 56px;
-  font-size: 32px;
-  line-height: 1.8;
-  color: var(--ink-soft);
+  margin-top: 48px;
+  font-family: var(--hand);
+  font-size: 48px;
+  color: var(--ink);
 }
