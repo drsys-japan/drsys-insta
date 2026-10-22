@@ -5,7 +5,8 @@
   --lavender-soft: #E9E2F2;
   --pink: #E9B9B5;        /* くすみピンク（差し色） */
   --pink-soft: #F6DEDA;
-  --ink: #4A4044;         /* 文字色：やわらかい濃茶グレー */
+  --ink: #3E3438;         /* 文字色：やわらかい濃茶グレー */
+  --accent: #B5677A;      /* 強調色：深めのくすみローズ */
   --ink-soft: #8A7F84;
   --serif: "Noto Serif CJK JP", "Noto Serif JP", serif;
   --sans: "Noto Sans CJK JP", "Noto Sans JP", sans-serif;
@@ -86,13 +87,15 @@ body {
 }
 .cover h1 {
   font-family: var(--serif);
-  font-weight: 600;
-  font-size: 92px;
-  line-height: 1.45;
-  letter-spacing: .04em;
+  font-weight: 900;
+  font-size: 104px;
+  line-height: 1.38;
+  letter-spacing: .02em;
 }
 .cover h1 em {
   font-style: normal;
+  color: var(--accent);
+  font-size: 1.12em;
   background: linear-gradient(transparent 72%, rgba(255,255,255,.95) 72%, rgba(255,255,255,.95) 92%, transparent 92%);
   padding: 0 .08em;
 }
@@ -113,15 +116,16 @@ body {
 }
 .num {
   font-family: var(--serif);
-  font-size: 120px;
+  font-weight: 900;
+  font-size: 132px;
   line-height: 1;
   color: var(--lavender);
   letter-spacing: .04em;
 }
 .body-slide h2 {
   font-family: var(--serif);
-  font-weight: 600;
-  font-size: 68px;
+  font-weight: 900;
+  font-size: 78px;
   line-height: 1.5;
   margin: 32px 0 48px;
   padding-bottom: 40px;
@@ -133,7 +137,8 @@ body {
   letter-spacing: .03em;
 }
 .body-slide p strong {
-  font-weight: 700;
+  font-weight: 900;
+  color: var(--accent);
   background: linear-gradient(transparent 60%, var(--lavender-soft) 60%);
 }
 .note {
@@ -163,18 +168,18 @@ body {
 }
 .cta h2 {
   font-family: var(--serif);
-  font-weight: 600;
-  font-size: 72px;
+  font-weight: 900;
+  font-size: 84px;
   line-height: 1.55;
 }
 .keyword {
   display: inline-block;
   margin: 56px 0 0;
   font-family: var(--serif);
-  font-size: 64px;
-  font-weight: 600;
+  font-size: 76px;
+  font-weight: 900;
   color: #fff;
-  background: var(--pink);
+  background: var(--accent);
   border-radius: 24px;
   padding: 20px 64px;
   letter-spacing: .1em;
