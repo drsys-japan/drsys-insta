@@ -13,10 +13,11 @@
   --accent: #B5677A;
   --marker: rgba(255, 236, 140, .85);   /* 黄色い蛍光ペン */
   --ink: #3E3438;
-  --ink-soft: #7D7176;
+  --ink-soft: #5E5156;   /* 補足文字：読みやすい濃さに */
   --serif: "Noto Serif CJK JP", serif;
   --sans: "Noto Sans CJK JP", sans-serif;
-  --hand: "Yomogi", "Klee One", cursive;
+  --hand: "Klee One", "Yomogi", serif;   /* 手書き風だが線が太く読みやすい */
+  --doodle-font: "Yomogi", "Klee One", cursive;
   --pen: "Klee One", serif;
 }
 
@@ -45,8 +46,8 @@ body::before {
 
 .brand {
   font-family: var(--hand);
-  font-size: 34px;
-  color: var(--ink-soft);
+  font-size: 36px;
+  color: var(--ink);
   transform: rotate(-2deg);
   align-self: flex-start;
   border-bottom: 3px dotted var(--lavender);
@@ -56,8 +57,8 @@ body::before {
 .footer {
   display: flex; justify-content: space-between; align-items: center;
   font-family: var(--hand);
-  font-size: 32px;
-  color: var(--ink-soft);
+  font-size: 34px;
+  color: var(--ink);
 }
 .dots { display: flex; gap: 14px; }
 .dots span { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--lavender); }
@@ -91,9 +92,10 @@ body::before {
   position: relative;
 }
 .kicker {
-  font-family: var(--hand);
-  font-size: 44px;
+  font-family: var(--doodle-font);
+  font-size: 48px;
   color: var(--accent);
+  -webkit-text-stroke: 1.2px var(--accent);
   margin-bottom: 44px;
   transform: rotate(-3deg);
 }
@@ -115,7 +117,7 @@ body::before {
 .cover .sub {
   margin-top: 56px;
   font-family: var(--hand);
-  font-size: 46px;
+  font-size: 48px;
   color: var(--ink);
 }
 
@@ -169,9 +171,9 @@ body::before {
 }
 .cta .lead {
   font-family: var(--hand);
-  font-size: 42px;
+  font-size: 44px;
   line-height: 1.7;
-  color: var(--ink-soft);
+  color: var(--ink);
   margin-bottom: 48px;
 }
 .cta h2 {
