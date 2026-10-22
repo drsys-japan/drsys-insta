@@ -1,0 +1,187 @@
+/* Dr.SYS カルーセル デザイン（1080×1350 / 4:5） */
+:root {
+  --bg: #FAF7F3;          /* 白〜ごく薄いベージュ */
+  --lavender: #B9A9D0;    /* パッケージの薄紫 */
+  --lavender-soft: #E9E2F2;
+  --pink: #E9B9B5;        /* くすみピンク（差し色） */
+  --pink-soft: #F6DEDA;
+  --ink: #4A4044;         /* 文字色：やわらかい濃茶グレー */
+  --ink-soft: #8A7F84;
+  --serif: "Noto Serif CJK JP", "Noto Serif JP", serif;
+  --sans: "Noto Sans CJK JP", "Noto Sans JP", sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { width: 1080px; height: 1350px; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 背景の細い円のあしらい */
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid var(--lavender);
+  opacity: .35;
+}
+.ring.r1 { width: 560px; height: 560px; top: -280px; right: -280px; }
+.ring.r2 { width: 320px; height: 320px; top: -170px; left: -170px; border-color: var(--pink); opacity: .6; }
+
+.frame {
+  position: absolute;
+  inset: 64px;
+  display: flex;
+  flex-direction: column;
+}
+
+.brand {
+  font-family: var(--serif);
+  font-size: 30px;
+  letter-spacing: .18em;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 26px;
+  color: var(--ink-soft);
+  letter-spacing: .08em;
+}
+.dots { display: flex; gap: 14px; }
+.dots span { width: 14px; height: 14px; border-radius: 50%; background: var(--lavender-soft); }
+.dots span.on { background: var(--lavender); }
+
+/* ---------- 表紙 ---------- */
+.cover .panel {
+  flex: 1;
+  margin: 56px 0 48px;
+  background: var(--pink-soft);
+  border-radius: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 80px 64px;
+  position: relative;
+}
+.kicker {
+  display: inline-block;
+  font-size: 32px;
+  letter-spacing: .14em;
+  color: #fff;
+  background: var(--lavender);
+  border-radius: 999px;
+  padding: 14px 40px;
+  margin-bottom: 64px;
+}
+.cover h1 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 92px;
+  line-height: 1.45;
+  letter-spacing: .04em;
+}
+.cover h1 em {
+  font-style: normal;
+  background: linear-gradient(transparent 72%, rgba(255,255,255,.95) 72%, rgba(255,255,255,.95) 92%, transparent 92%);
+  padding: 0 .08em;
+}
+.cover .sub {
+  margin-top: 64px;
+  font-size: 34px;
+  color: var(--ink-soft);
+  letter-spacing: .1em;
+}
+
+/* ---------- 中身 ---------- */
+.body-slide .content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 24px;
+}
+.num {
+  font-family: var(--serif);
+  font-size: 120px;
+  line-height: 1;
+  color: var(--lavender);
+  letter-spacing: .04em;
+}
+.body-slide h2 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 68px;
+  line-height: 1.5;
+  margin: 32px 0 48px;
+  padding-bottom: 40px;
+  border-bottom: 3px solid var(--pink);
+}
+.body-slide p {
+  font-size: 42px;
+  line-height: 1.95;
+  letter-spacing: .03em;
+}
+.body-slide p strong {
+  font-weight: 700;
+  background: linear-gradient(transparent 60%, var(--lavender-soft) 60%);
+}
+.note {
+  margin-top: 40px;
+  font-size: 28px;
+  color: var(--ink-soft);
+}
+
+/* ---------- 最後の呼びかけ ---------- */
+.cta .panel {
+  flex: 1;
+  margin: 56px 0 48px;
+  background: var(--lavender-soft);
+  border-radius: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 80px 56px;
+}
+.cta .lead {
+  font-size: 38px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+  margin-bottom: 56px;
+}
+.cta h2 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 72px;
+  line-height: 1.55;
+}
+.keyword {
+  display: inline-block;
+  margin: 56px 0 0;
+  font-family: var(--serif);
+  font-size: 64px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--pink);
+  border-radius: 24px;
+  padding: 20px 64px;
+  letter-spacing: .1em;
+}
+.cta .small {
+  margin-top: 56px;
+  font-size: 32px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+}
