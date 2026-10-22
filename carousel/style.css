@@ -5,15 +5,15 @@
 @import url("fonts/klee-one/600.css");
 
 :root {
-  --bg: #FAF7F3;
+  --bg: #FFFCF9;
   --lavender: #B9A9D0;
   --lavender-soft: #E9E2F2;
   --pink: #E9B9B5;
   --pink-soft: #F6DEDA;
-  --accent: #B5677A;
+  --accent: #A44E66;      /* くっきり見える濃さに */
   --marker: rgba(255, 236, 140, .85);   /* 黄色い蛍光ペン */
-  --ink: #3E3438;
-  --ink-soft: #5E5156;   /* 補足文字：読みやすい濃さに */
+  --ink: #231B1F;         /* ほぼ黒でくっきり */
+  --ink-soft: #3A3034;   /* 補足文字も濃いめに */
   --serif: "Noto Serif CJK JP", serif;
   --sans: "Noto Sans CJK JP", sans-serif;
   --hand: "Klee One", "Yomogi", serif;   /* 手書き風だが線が太く読みやすい */
@@ -37,8 +37,8 @@ body::before {
   content: "";
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(185,169,208,.13) 2px, transparent 2px),
-    linear-gradient(90deg, rgba(185,169,208,.13) 2px, transparent 2px);
+    linear-gradient(rgba(185,169,208,.09) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(185,169,208,.09) 2px, transparent 2px);
   background-size: 54px 54px;
 }
 
@@ -46,8 +46,9 @@ body::before {
 
 .brand {
   font-family: var(--hand);
-  font-size: 36px;
+  font-size: 38px;
   color: var(--ink);
+  -webkit-text-stroke: .6px var(--ink);
   transform: rotate(-2deg);
   align-self: flex-start;
   border-bottom: 3px dotted var(--lavender);
@@ -56,8 +57,9 @@ body::before {
 
 .footer {
   display: flex; justify-content: space-between; align-items: center;
-  font-family: var(--hand);
-  font-size: 34px;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 32px;
   color: var(--ink);
 }
 .dots { display: flex; gap: 14px; }
@@ -95,7 +97,7 @@ body::before {
   font-family: var(--doodle-font);
   font-size: 48px;
   color: var(--accent);
-  -webkit-text-stroke: 1.2px var(--accent);
+  -webkit-text-stroke: 1.6px var(--accent);
   margin-bottom: 44px;
   transform: rotate(-3deg);
 }
@@ -116,8 +118,9 @@ body::before {
 }
 .cover .sub {
   margin-top: 56px;
-  font-family: var(--hand);
-  font-size: 48px;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 46px;
   color: var(--ink);
 }
 
@@ -142,8 +145,9 @@ body::before {
 }
 .squiggle { width: 520px; height: 34px; margin-bottom: 44px; }
 .body-slide p {
-  font-size: 44px;
-  line-height: 1.95;
+  font-size: 46px;
+  font-weight: 500;
+  line-height: 1.9;
 }
 .body-slide p strong {
   font-weight: 900;
@@ -151,8 +155,9 @@ body::before {
 }
 .note {
   margin-top: 36px;
-  font-family: var(--hand);
-  font-size: 34px;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 32px;
   color: var(--ink-soft);
 }
 
@@ -170,8 +175,9 @@ body::before {
   position: relative;
 }
 .cta .lead {
-  font-family: var(--hand);
-  font-size: 44px;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 42px;
   line-height: 1.7;
   color: var(--ink);
   margin-bottom: 48px;
@@ -198,7 +204,8 @@ body::before {
 }
 .cta .small {
   margin-top: 48px;
-  font-family: var(--hand);
+  font-family: var(--sans);
+  font-weight: 700;
   font-size: 48px;
   color: var(--ink);
 }
