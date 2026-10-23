@@ -1,0 +1,31 @@
+name: 投稿用の鍵を延長
+
+on:
+  schedule:
+    - cron: "0 18 * * 0"    # 毎週月曜 3:00（日本時間）
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 有効期限を延長
+        id: refresh
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+        run: python scripts/daily.py refresh-token
+      - name: 新しい鍵を Secrets に保存（鍵が変わったときだけ）
+        if: steps.refresh.outputs.new_token != ''
+        env:
+          GH_TOKEN: ${{ secrets.SECRETS_UPDATE_TOKEN }}
+          NEW_TOKEN: ${{ steps.refresh.outputs.new_token }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::error::鍵が新しくなりましたが、保存用の権限（SECRETS_UPDATE_TOKEN）がありません。Claudeに相談してください。"
+            exit 1
+          fi
+          gh secret set IG_ACCESS_TOKEN --repo "$GITHUB_REPOSITORY" --body "$NEW_TOKEN"

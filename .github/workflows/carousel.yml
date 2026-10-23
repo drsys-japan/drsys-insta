@@ -1,0 +1,88 @@
+name: カルーセル投稿
+
+on:
+  schedule:
+    - cron: "0 23 * * *"    # 毎日 8:00（日本時間）に準備
+    - cron: "30 0 * * *"    # 念のため 9:30 にもう一度（投稿データが遅れて届いた場合）
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "日付（YYYY-MM-DD）。空なら今日"
+        required: false
+      no_wait:
+        description: "予定時刻を待たずにすぐ投稿する"
+        type: boolean
+        default: false
+
+concurrency:
+  group: carousel
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      skip: ${{ steps.prep.outputs.skip }}
+      date: ${{ steps.prep.outputs.date }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 日本語フォントとブラウザを入れる
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk fonts-noto-cjk-extra
+          pip install -q playwright==1.47.0
+          python -m playwright install --with-deps chromium
+      - name: 表現チェックと画像づくり
+        id: prep
+        run: |
+          if [ -n "${{ inputs.date }}" ]; then
+            python scripts/daily.py prepare --date "${{ inputs.date }}"
+          else
+            python scripts/daily.py prepare
+          fi
+      - name: 画像を保存（公開URLにする）
+        if: always()
+        run: |
+          git config user.name "drsys-insta-bot"
+          git config user.email "drsys-insta-bot@users.noreply.github.com"
+          git add posts public || true
+          git diff --cached --quiet || (git commit -m "投稿準備 ${{ steps.prep.outputs.date }}" && git push)
+
+  publish:
+    needs: prepare
+    if: needs.prepare.outputs.skip == 'false'
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    environment: instagram   # 承認してから投稿する（設定で承認者を指定）
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instagramに投稿
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+        run: |
+          git pull -q origin main
+          if [ "${{ inputs.no_wait }}" = "true" ]; then
+            python scripts/daily.py publish --date "${{ needs.prepare.outputs.date }}" --no-wait
+          else
+            python scripts/daily.py publish --date "${{ needs.prepare.outputs.date }}"
+          fi
+      - name: 投稿結果を保存
+        if: always()
+        run: |
+          git config user.name "drsys-insta-bot"
+          git config user.email "drsys-insta-bot@users.noreply.github.com"
+          git pull -q origin main
+          git add posts || true
+          git diff --cached --quiet || (git commit -m "投稿結果 ${{ needs.prepare.outputs.date }}" && git push)

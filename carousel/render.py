@@ -1,7 +1,8 @@
 """カルーセル画像を JSON から作るスクリプト。
 
 使い方:
-    python carousel/render.py carousel/samples/exosome.json out/
+    python carousel/render.py carousel/samples/exosome.json out/        # PNG
+    python carousel/render.py carousel/samples/exosome.json out/ --jpg  # JPEG（投稿用）
 
 JSON の形:
 {
@@ -102,7 +103,8 @@ def slide_html(slide: dict, i: int, n: int, brand: str) -> str:
 </body></html>"""
 
 
-def render(spec_path: str, out_dir: str) -> list[Path]:
+def render(spec_path: str, out_dir: str, fmt_ext: str = "png") -> list[Path]:
+    """fmt_ext は "png" か "jpg"。Instagram API に渡す画像は JPEG のみ対応。"""
     spec = json.loads(Path(spec_path).read_text(encoding="utf-8"))
     slides = spec["slides"]
     brand = spec.get("brand", "")
@@ -121,8 +123,11 @@ def render(spec_path: str, out_dir: str) -> list[Path]:
                 page.goto(tmp.as_uri(), wait_until="networkidle")
                 page.evaluate("document.fonts.ready")
                 page.wait_for_timeout(300)
-                path = out / f"slide_{i + 1:02d}.png"
-                page.screenshot(path=str(path), full_page=False)
+                path = out / f"slide_{i + 1:02d}.{fmt_ext}"
+                if fmt_ext == "jpg":
+                    page.screenshot(path=str(path), full_page=False, type="jpeg", quality=92)
+                else:
+                    page.screenshot(path=str(path), full_page=False)
                 paths.append(path)
             finally:
                 tmp.unlink(missing_ok=True)
@@ -131,8 +136,10 @@ def render(spec_path: str, out_dir: str) -> list[Path]:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    ext = "jpg" if "--jpg" in sys.argv else "png"
+    if len(args) != 2:
         print(__doc__)
         sys.exit(1)
-    for path in render(sys.argv[1], sys.argv[2]):
+    for path in render(args[0], args[1], ext):
         print(path)
