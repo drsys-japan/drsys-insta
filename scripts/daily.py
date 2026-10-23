@@ -262,9 +262,18 @@ def cmd_refresh() -> int:
     return 0
 
 
+def cmd_check() -> int:
+    """投稿はせず、鍵が使えるかだけ確かめる。"""
+    me = api("GET", "me", {"fields": "user_id,username,account_type"})
+    limit = api("GET", f"{me['user_id']}/content_publishing_limit", {"fields": "quota_usage,config"})
+    gh_summary(f"## 接続OK\n\n- 投稿先: @{me.get('username')}（{me.get('account_type')}）\n"
+               f"- 今日のAPI投稿数: {limit.get('data', [{}])[0].get('quota_usage', '?')}")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("command", choices=["prepare", "publish", "refresh-token"])
+    ap.add_argument("command", choices=["prepare", "publish", "refresh-token", "check"])
     ap.add_argument("--date", default=today_jst())
     ap.add_argument("--no-wait", action="store_true")
     a = ap.parse_args()
@@ -272,6 +281,8 @@ def main() -> int:
         return cmd_prepare(a.date)
     if a.command == "publish":
         return cmd_publish(a.date, a.no_wait)
+    if a.command == "check":
+        return cmd_check()
     return cmd_refresh()
 
 
