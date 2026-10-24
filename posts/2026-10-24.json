@@ -26,5 +26,11 @@
       "small": "と送ってくださいね",
       "footer": "フォローしてね"
     }
+  ],
+  "status": "prepared",
+  "images": [
+    "slide_01.jpg",
+    "slide_02.jpg",
+    "slide_03.jpg"
   ]
 }
