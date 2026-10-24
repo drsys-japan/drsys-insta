@@ -4,6 +4,8 @@ on:
   schedule:
     - cron: "0 23 * * *"    # 毎日 8:00（日本時間）に準備
     - cron: "30 0 * * *"    # 念のため 9:30 にもう一度（投稿データが遅れて届いた場合）
+    - cron: "0 6 * * *"     # 15:00 に夜の投稿（21:00）を準備
+    - cron: "30 7 * * *"    # 念のため 16:30 にもう一度
   workflow_dispatch:
     inputs:
       date:
@@ -41,7 +43,11 @@ jobs:
         id: prep
         run: |
           if [ -n "${{ inputs.date }}" ]; then
-            python scripts/daily.py prepare --date "${{ inputs.date }}"
+            if [ "${{ inputs.no_wait }}" = "true" ]; then
+              python scripts/daily.py prepare --date "${{ inputs.date }}" --no-wait
+            else
+              python scripts/daily.py prepare --date "${{ inputs.date }}"
+            fi
           else
             python scripts/daily.py prepare
           fi

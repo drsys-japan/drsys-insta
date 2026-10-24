@@ -99,7 +99,7 @@ def raw_url(date: str, name: str) -> str:
 
 # ---------------------------------------------------------------- prepare
 
-def cmd_prepare(date: str) -> int:
+def cmd_prepare(date: str, force_now: bool = False) -> int:
     data = load(date)
     if data is None:
         gh_summary(f"{date}: 投稿データ（posts/{date}.json）がないので、今日は投稿しません。")
@@ -113,6 +113,14 @@ def cmd_prepare(date: str) -> int:
         gh_summary(f"{date}: すでに準備済み（status={data['status']}）なのでスキップします。")
         gh_output(skip="true", date=date)
         return 0
+    if not force_now:
+        # 投稿予定の5時間半より前は準備しない（夜の投稿は午後の実行で準備する）
+        hh, mm = (int(x) for x in data.get("post_at", "12:00").split(":"))
+        target = datetime.strptime(date, "%Y-%m-%d").replace(hour=hh, minute=mm, tzinfo=JST)
+        if (target - datetime.now(JST)).total_seconds() > 5.5 * 3600:
+            gh_summary(f"{date}: {data.get('post_at')} の投稿なので、午後の実行で準備します。")
+            gh_output(skip="true", date=date)
+            return 0
 
     hits = ng_check(data)
     if hits:
@@ -278,7 +286,7 @@ def main() -> int:
     ap.add_argument("--no-wait", action="store_true")
     a = ap.parse_args()
     if a.command == "prepare":
-        return cmd_prepare(a.date)
+        return cmd_prepare(a.date, a.no_wait)
     if a.command == "publish":
         return cmd_publish(a.date, a.no_wait)
     if a.command == "check":
