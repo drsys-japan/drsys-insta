@@ -44,5 +44,14 @@
       "small": "と送ってくださいね",
       "footer": "フォローしてね"
     }
+  ],
+  "status": "prepared",
+  "images": [
+    "slide_01.jpg",
+    "slide_02.jpg",
+    "slide_03.jpg",
+    "slide_04.jpg",
+    "slide_05.jpg",
+    "slide_06.jpg"
   ]
 }
