@@ -76,14 +76,17 @@ def gh_summary(text: str) -> None:
 
 
 def all_text(data: dict) -> str:
-    parts = [data.get("caption", "")]
+    parts = [data.get("caption", ""), data.get("x", ""), data.get("threads", "")]
     for s in data.get("slides", []):
         parts += [str(v) for k, v in s.items() if k != "type"]
     return "\n".join(parts)
 
 
 def ng_check(data: dict) -> list[str]:
-    text = all_text(data)
+    return ng_text(all_text(data))
+
+
+def ng_text(text: str) -> list[str]:
     hits = []
     for pat in NG_PATTERNS:
         for m in re.finditer(pat, text):
@@ -142,8 +145,11 @@ def cmd_prepare(date: str, force_now: bool = False) -> int:
 
     lines = [f"## {date} のカルーセルを準備しました（{data.get('post_at', '12:00')} 投稿予定）", ""]
     lines += [f"![slide]({raw_url(date, p.name)})" for p in paths]
-    lines += ["", "### キャプション", "", "```", data.get("caption", ""), "```",
-              "", "問題なければ、このページ上の「Review deployments」から承認してください。"]
+    lines += ["", "### キャプション", "", "```", data.get("caption", ""), "```"]
+    for key, label in (("threads", "Threads"), ("x", "X")):
+        if data.get(key):
+            lines += ["", f"### {label}（同じ時刻に投稿）", "", "```", data[key], "```"]
+    lines += ["", "問題なければ、このページ上の「Review deployments」から承認してください。"]
     gh_summary("\n".join(lines))
     gh_output(skip="false", date=date, post_at=data.get("post_at", "12:00"))
     return 0
