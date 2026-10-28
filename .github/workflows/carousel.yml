@@ -84,6 +84,19 @@ jobs:
           else
             python scripts/daily.py publish --date "${{ needs.prepare.outputs.date }}"
           fi
+      - name: Threadsに投稿
+        if: success() || failure()   # インスタが失敗しても、こちらは投稿する
+        env:
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+        run: python scripts/social.py threads --date "${{ needs.prepare.outputs.date }}" ${{ inputs.no_wait && '--no-wait' || '' }}
+      - name: Xに投稿
+        if: success() || failure()
+        env:
+          X_API_KEY: ${{ secrets.X_API_KEY }}
+          X_API_SECRET: ${{ secrets.X_API_SECRET }}
+          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
+          X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
+        run: python scripts/social.py x --date "${{ needs.prepare.outputs.date }}" ${{ inputs.no_wait && '--no-wait' || '' }}
       - name: 投稿結果を保存
         if: always()
         run: |

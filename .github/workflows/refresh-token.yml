@@ -29,3 +29,29 @@ jobs:
             exit 1
           fi
           gh secret set IG_ACCESS_TOKEN --repo "$GITHUB_REPOSITORY" --body "$NEW_TOKEN"
+
+  refresh-threads:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Threads の鍵の有効期限を延長
+        id: refresh
+        env:
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+        run: |
+          if [ -z "$THREADS_ACCESS_TOKEN" ]; then echo "Threads の鍵が未設定なのでスキップします"; exit 0; fi
+          python scripts/social.py refresh-threads
+      - name: 新しい鍵を Secrets に保存（鍵が変わったときだけ）
+        if: steps.refresh.outputs.new_token != ''
+        env:
+          GH_TOKEN: ${{ secrets.SECRETS_UPDATE_TOKEN }}
+          NEW_TOKEN: ${{ steps.refresh.outputs.new_token }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::error::Threads の鍵が新しくなりましたが、保存用の権限（SECRETS_UPDATE_TOKEN）がありません。Claudeに相談してください。"
+            exit 1
+          fi
+          gh secret set THREADS_ACCESS_TOKEN --repo "$GITHUB_REPOSITORY" --body "$NEW_TOKEN"
