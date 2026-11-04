@@ -52,7 +52,7 @@ def dots(i: int, n: int) -> str:
 def slide_html(slide: dict, i: int, n: int, brand: str) -> str:
     kind = slide["type"]
     footer = f'<div class="footer"><span>{fmt(slide.get("footer", "保存して見返してね"))}</span><div class="dots">{dots(i, n)}</div></div>'
-    head = f'<div class="brand">{fmt(brand)}</div>'
+    head = ""  # アカウント名の文字は画像に入れない（あいさん指定 2026-11-04）
 
     if kind == "cover":
         inner = f"""
