@@ -8,7 +8,7 @@ JSON の形:
 {
   "brand": "あいの大人の美容ノート",
   "slides": [
-    {"type": "cover", "kicker": "...", "title": "...", "sub": "..."},
+    {"type": "cover", "kicker": "...", "title": "...", "sub": "...", "image": "carousel/images/xxx.jpg（任意）"},
     {"type": "body", "num": "01", "title": "...", "text": "...", "note": "..."},
     {"type": "cta", "lead": "...", "title": "...", "keyword": "...", "small": "..."}
   ]
@@ -54,7 +54,20 @@ def slide_html(slide: dict, i: int, n: int, brand: str) -> str:
     footer = f'<div class="footer"><span>{fmt(slide.get("footer", "保存して見返してね"))}</span><div class="dots">{dots(i, n)}</div></div>'
     head = ""  # アカウント名の文字は画像に入れない（あいさん指定 2026-11-04）
 
-    if kind == "cover":
+    if kind == "cover" and slide.get("image"):
+        # 商品写真を大きく使う表紙（image はリポジトリ直下からのパス）
+        img = (HERE.parent / slide["image"]).resolve().as_uri()
+        inner = f"""
+        <div class="panel photo">
+          <div class="tape tl"></div><div class="tape pink tr"></div>
+          {SPARKLE.format(pos="top:40px;right:48px", s=60, c=ACCENT)}
+          <div class="photo-box"><img src="{html.escape(img)}" alt=""></div>
+          <div class="kicker">＼ {fmt(slide.get("kicker", ""))} ／</div>
+          <h1>{fmt(slide["title"])}</h1>
+          <div class="sub">{fmt(slide.get("sub", ""))}</div>
+        </div>"""
+        cls = "cover"
+    elif kind == "cover":
         inner = f"""
         <div class="panel">
           <div class="tape tl"></div><div class="tape pink tr"></div>

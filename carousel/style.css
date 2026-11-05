@@ -124,6 +124,14 @@ body::before {
   color: var(--ink);
 }
 
+/* 商品写真つきの表紙 */
+.cover .panel.photo { justify-content: center; padding: 40px 40px 48px; background: #FFFFFF; }
+.photo-box { width: 100%; border-radius: 14px; overflow: hidden; margin-bottom: 34px; }
+.photo-box img { width: 100%; display: block; }
+.cover .panel.photo .kicker { font-size: 42px; margin-bottom: 18px; }
+.cover .panel.photo h1 { font-size: 84px; line-height: 1.3; }
+.cover .panel.photo .sub { margin-top: 26px; font-size: 40px; }
+
 /* ---------- 中身 ---------- */
 .body-slide .content { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 0 16px; }
 .num {
