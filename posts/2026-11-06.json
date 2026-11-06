@@ -35,7 +35,7 @@
       "type": "body",
       "num": "04",
       "title": "自分の肌を\n好きになる",
-      "text": "うるおいとハリを与えて\n年齢に応じたお手入れを。\n**鏡を見る時間が\n楽しみになる**毎日へ。"
+      "text": "うるおいとハリを与えて\n年齢に応じたお手入れを。\n**鏡を見る時間が**\n**楽しみになる**毎日へ。"
     },
     {
       "type": "cta",
@@ -46,14 +46,5 @@
       "footer": "公式LINEの友だち登録もどうぞ"
     }
   ],
-  "original_date": "2026-10-30",
-  "status": "prepared",
-  "images": [
-    "slide_01.jpg",
-    "slide_02.jpg",
-    "slide_03.jpg",
-    "slide_04.jpg",
-    "slide_05.jpg",
-    "slide_06.jpg"
-  ]
+  "original_date": "2026-10-30"
 }
