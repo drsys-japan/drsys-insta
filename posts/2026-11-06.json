@@ -46,5 +46,14 @@
       "footer": "公式LINEの友だち登録もどうぞ"
     }
   ],
-  "original_date": "2026-10-30"
+  "original_date": "2026-10-30",
+  "status": "prepared",
+  "images": [
+    "slide_01.jpg",
+    "slide_02.jpg",
+    "slide_03.jpg",
+    "slide_04.jpg",
+    "slide_05.jpg",
+    "slide_06.jpg"
+  ]
 }
