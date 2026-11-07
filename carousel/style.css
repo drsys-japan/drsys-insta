@@ -132,6 +132,29 @@ body::before {
 .cover .panel.photo h1 { font-size: 84px; line-height: 1.3; }
 .cover .panel.photo .sub { margin-top: 26px; font-size: 40px; }
 
+/* 写真を全面に使う表紙（"layout": "full"） */
+.cover-full::before { display: none; }
+.cover-full .full-bg { position: absolute; inset: 0; background-size: cover; background-repeat: no-repeat; }
+.cover-full .full-card {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 56px 72px 92px;
+  background: linear-gradient(180deg, rgba(255,252,249,0) 0%, rgba(255,252,249,.92) 22%, rgba(255,252,249,.97) 100%);
+}
+.cover-full .kicker {
+  font-family: var(--sans); font-weight: 700; font-size: 34px; letter-spacing: .18em;
+  color: var(--accent); -webkit-text-stroke: 0; transform: none; margin: 40px 0 18px;
+}
+.cover-full h1 { font-family: var(--serif); font-weight: 900; font-size: 92px; line-height: 1.32; letter-spacing: .02em; color: var(--ink); }
+.cover-full h1 em {
+  font-style: normal; color: var(--accent);
+  background: linear-gradient(178.5deg, transparent 60%, var(--marker) 60%, var(--marker) 90%, transparent 90%);
+  padding: 0 .08em;
+}
+.cover-full .sub { margin-top: 24px; font-family: var(--sans); font-weight: 700; font-size: 38px; color: var(--ink-soft); }
+.cover-full .full-dots { position: absolute; right: 72px; bottom: 44px; display: flex; gap: 12px; }
+.cover-full .full-dots span { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--lavender); background: rgba(255,255,255,.6); }
+.cover-full .full-dots span.on { background: var(--accent); border-color: var(--accent); }
+
 /* ---------- 中身 ---------- */
 .body-slide .content { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 0 16px; }
 .num {

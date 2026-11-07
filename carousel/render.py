@@ -54,6 +54,22 @@ def slide_html(slide: dict, i: int, n: int, brand: str) -> str:
     footer = f'<div class="footer"><span>{fmt(slide.get("footer", "保存して見返してね"))}</span><div class="dots">{dots(i, n)}</div></div>'
     head = ""  # アカウント名の文字は画像に入れない（あいさん指定 2026-11-04）
 
+    if kind == "cover" and slide.get("image") and slide.get("layout") == "full":
+        # 写真を全面に敷き、下に文字の帯をのせる表紙（"layout": "full"）
+        img = (HERE.parent / slide["image"]).resolve().as_uri()
+        pos = html.escape(slide.get("image_pos", "center top"))
+        return f"""<!doctype html><html lang="ja"><head><meta charset="utf-8">
+<link rel="stylesheet" href="style.css"></head>
+<body class="cover-full">
+  <div class="full-bg" style="background-image:url('{html.escape(img)}');background-position:{pos}"></div>
+  <div class="full-card">
+    <div class="kicker">{fmt(slide.get("kicker", ""))}</div>
+    <h1>{fmt(slide["title"])}</h1>
+    <div class="sub">{fmt(slide.get("sub", ""))}</div>
+  </div>
+  <div class="full-dots">{dots(i, n)}</div>
+</body></html>"""
+
     if kind == "cover" and slide.get("image"):
         # 商品写真を大きく使う表紙（image はリポジトリ直下からのパス）
         img = (HERE.parent / slide["image"]).resolve().as_uri()
